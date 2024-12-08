@@ -2,7 +2,7 @@ TEST1 = 18
 RES1 = 2504
 
 TEST2 = 9
-RES2 = None
+RES2 = 1923
 
 
 def process1(data):
@@ -87,5 +87,30 @@ def _xdiagonalize(i: int, j: int, data: list[str]) -> str:
 
 
 def process2(data):
+    linelen = len(data[0])
+    height = len(data)
+
     res = 0
+    for i in range(1, height - 1):
+        for j in range(1, linelen - 1):
+            v = data[i][j]
+            if v == "A":
+                if is_xmas(i, j, data):
+                    res += 1
+
     return res
+
+
+def is_xmas(i: int, j: int, data: list[str]) -> bool:
+    topleft = data[i - 1][j - 1]
+    topright = data[i - 1][j + 1]
+    botleft = data[i + 1][j - 1]
+    botright = data[i + 1][j + 1]
+
+    if topleft == topright and botleft == botright:
+        if (topleft == "M" and botleft == "S") or (topleft == "S" and botleft == "M"):
+            return True
+    if topleft == botleft and topright == botright:
+        if (topleft == "M" and topright == "S") or (topleft == "S" and topright == "M"):
+            return True
+    return False
